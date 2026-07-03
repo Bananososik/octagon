@@ -1,12 +1,12 @@
 from app.db.models import Category, Book
 
 
-def create_category(db, title: str):
-    category = Category(title=title)
-    db.add(category)
+def create_category(db, category):
+    db_category = Category(title=category.title)
+    db.add(db_category)
     db.commit()
-    db.refresh(category)
-    return category
+    db.refresh(db_category)
+    return db_category
 
 
 def get_categories(db):
@@ -40,26 +40,19 @@ def delete_category(db, category_id: int):
     return category
 
 
-def create_book(
-    db,
-    title: str,
-    description: str,
-    price: float,
-    url: str,
-    category_id: int
-):
-    book = Book(
-        title=title,
-        description=description,
-        price=price,
-        url=url,
-        category_id=category_id
+def create_book(db, book):
+    db_book = Book(
+        title=book.title,
+        description=book.description,
+        price=book.price,
+        url=book.url,
+        category_id=book.category_id
     )
 
-    db.add(book)
+    db.add(db_book)
     db.commit()
-    db.refresh(book)
-    return book
+    db.refresh(db_book)
+    return db_book
 
 
 def get_books(db):
@@ -104,3 +97,6 @@ def delete_book(db, book_id: int):
     db.delete(book)
     db.commit()
     return book
+
+def get_books_by_category(db, category_id: int):
+    return db.query(Book).filter(Book.category_id == category_id).all()
