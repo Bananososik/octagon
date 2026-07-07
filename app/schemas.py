@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 class CategoryBase(BaseModel):
     title: str
@@ -8,11 +8,14 @@ class CategoryCreate(CategoryBase):
     pass
 
 
+class CategoryUpdate(CategoryBase):
+    pass
+
+
 class Category(CategoryBase):
     id: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class BookBase(BaseModel):
@@ -27,8 +30,11 @@ class BookCreate(BookBase):
     pass
 
 
+class BookUpdate(BookBase):
+    pass
+
+
 class Book(BookBase):
     id: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
